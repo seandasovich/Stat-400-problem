@@ -1,0 +1,38 @@
+---
+title: "EDA"
+author: "Sean and Dylan"
+date: "2026-04-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Univarite Data
+```{r}
+loan <- read.csv("/Users/seandasovich/Downloads/loan_data.csv")
+library(ggplot2)
+
+ggplot(loan, aes(x = person_income)) +
+  geom_histogram(bins = 30) +
+  labs(title = "Histrogram of Income")
+
+ggplot(loan, aes(x = credit_score)) +
+  geom_histogram(bins = 30) +
+  labs(title = "Histrogram Credit Score")
+
+ggplot(loan, aes(x = loan_percent_income)) +
+  geom_histogram(bins = 30) +
+  labs(title = "Histrogram of Loan Percent Income")
+
+ggplot(loan, aes(x = loan_status)) +
+  geom_bar() +
+  labs(title = "Bar graph of Loan Approval Counts")
+
+ggplot(loan, aes(x = previous_loan_defaults_on_file)) +
+  geom_bar() +
+  labs(title = " Bar Graph of Previous Loan Defaults")
+
+```
+
