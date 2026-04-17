@@ -35,4 +35,23 @@ ggplot(loan, aes(x = previous_loan_defaults_on_file)) +
   labs(title = " Bar Graph of Previous Loan Defaults")
 
 ```
+## Multivariate EDA
+
+```{r}
+ggplot(loan, aes(x = loan_status, y = person_income)) +
+  geom_boxplot() +
+  labs(title = "Income vs Loan Approval")
+
+ggplot(loan, aes(x = loan_status, y = credit_score)) +
+  geom_boxplot() +
+  labs(title = "Credit Score vs Loan Approval")
+
+ggplot(loan, aes(x = loan_status, y = loan_percent_income)) +
+  geom_boxplot() +
+  labs(title = "Loan Burden vs Loan Approval")
+
+ggplot(loan, aes(x = previous_loan_defaults_on_file, fill = loan_status)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Previous Defaults vs Loan Approval")
+```
 
