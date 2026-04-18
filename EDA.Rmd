@@ -118,7 +118,37 @@ numeric_vars <- loan[, c("person_age", "person_income", "loan_amnt",
 cor(numeric_vars, use = "complete.obs")
 ```
 
+### Logistic Regression
 
+```{r}
+model1 <- glm(loan_status ~ credit_score + person_income +
+              loan_percent_income + loan_int_rate +
+              loan_amnt,
+              data = loan, family = binomial)
+
+summary(model1)
+
+model2 <- glm(loan_status ~ credit_score + person_income +
+              loan_percent_income + loan_int_rate +
+              loan_amnt + previous_loan_defaults_on_file,
+              data = loan, family = binomial)
+
+summary(model2)
+
+AIC(model1, model2)
+
+```
+
+## final model
+
+```{r}
+model_final <- glm(loan_status ~ credit_score + person_income +
+                   loan_percent_income + loan_int_rate +
+                   loan_amnt,
+                   data = loan, family = binomial)
+
+summary(model_final)
+```
 
 
 
