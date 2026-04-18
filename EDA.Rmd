@@ -1,5 +1,5 @@
 ---
-title: "EDA"
+title: "Project code"
 author: "Sean and Dylan"
 date: "2026-04-14"
 output: html_document
@@ -9,10 +9,25 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+```{r}
+
+```
+
+
 ## Univarite Data
 ```{r}
 loan <- read.csv("/Users/seandasovich/Downloads/loan_data.csv")
 library(ggplot2)
+
+loan$loan_status <- factor(loan$loan_status, levels = c(0, 1),
+                           labels = c("Rejected", "Approved"))
+
+loan$previous_loan_defaults_on_file <- factor(loan$previous_loan_defaults_on_file)
+loan$person_gender <- factor(loan$person_gender)
+loan$person_education <- factor(loan$person_education)
+loan$person_home_ownership <- factor(loan$person_home_ownership)
+loan$loan_intent <- factor(loan$loan_intent)
 
 ggplot(loan, aes(x = person_income)) +
   geom_histogram(bins = 30) +
@@ -54,4 +69,61 @@ ggplot(loan, aes(x = previous_loan_defaults_on_file, fill = loan_status)) +
   geom_bar(position = "dodge") +
   labs(title = "Previous Defaults vs Loan Approval")
 ```
+
+## Numeric vs loan status predictors
+```{r}
+library(ggplot2)
+
+ggplot(loan, aes(x = loan_status, y = person_income, fill = loan_status)) +
+  geom_boxplot() +
+  labs(title = "Income by Loan Status",
+       x = "Loan Status", y = "Income")
+
+ggplot(loan, aes(x = loan_status, y = credit_score, fill = loan_status)) +
+  geom_boxplot() +
+  labs(title = "Credit Score by Loan Status",
+       x = "Loan Status", y = "Credit Score")
+
+ggplot(loan, aes(x = loan_status, y = loan_percent_income, fill = loan_status)) +
+  geom_boxplot() +
+  labs(title = "Loan Percent Income by Loan Status",
+       x = "Loan Status", y = "Loan Percent Income")
+```
+
+## caterogical vs loan status
+```{r}
+ggplot(loan, aes(x = previous_loan_defaults_on_file, fill = loan_status)) +
+  geom_bar(position = "fill") +
+  labs(title = "Loan Status by Previous Loan Default",
+       x = "Previous Loan Default", y = "Proportion") 
+
+ggplot(loan, aes(x = person_home_ownership, fill = loan_status)) +
+  geom_bar(position = "fill") +
+  labs(title = "Loan Status by Home Ownership",
+       x = "Home Ownership", y = "Proportion") 
+
+ggplot(loan, aes(x = loan_intent, fill = loan_status)) +
+  geom_bar(position = "fill") +
+  labs(title = "Loan Status by Loan Intent",
+       x = "Loan Intent", y = "Proportion") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+## Multicollinearity
+
+```{r}
+numeric_vars <- loan[, c("person_age", "person_income", "loan_amnt",
+                         "loan_int_rate", "credit_score", "loan_percent_income")]
+
+cor(numeric_vars, use = "complete.obs")
+```
+
+
+
+
+
+
+
+
+
 
