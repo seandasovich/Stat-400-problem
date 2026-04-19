@@ -470,32 +470,103 @@ cor(numeric_vars, use = &quot;complete.obs&quot;)</code></pre>
 ## loan_percent_income -0.011483096          1.00000000</code></pre>
 <div id="logistic-regression" class="section level3">
 <h3>Logistic Regression</h3>
-<pre class="r"><code>model1 &lt;- glm(loan_status ~ credit_score + person_income + loan_amnt,
-              data = loan, family = binomial)</code></pre>
-<pre><code>## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
-<pre class="r"><code>summary(model1)</code></pre>
+<pre class="r"><code>model1 &lt;- glm(loan_status ~ credit_score + person_income +
+              loan_percent_income + loan_int_rate +
+              loan_amnt,
+              data = loan, family = binomial)
+
+summary(model1)</code></pre>
 <pre><code>## 
 ## Call:
-## glm(formula = loan_status ~ credit_score + person_income + loan_amnt, 
-##     family = binomial, data = loan)
+## glm(formula = loan_status ~ credit_score + person_income + loan_percent_income + 
+##     loan_int_rate + loan_amnt, family = binomial, data = loan)
 ## 
 ## Coefficients:
-##                 Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)   -3.876e-01  1.528e-01  -2.536   0.0112 *  
-## credit_score  -9.418e-05  2.381e-04  -0.396   0.6925    
-## person_income -2.820e-05  4.996e-07 -56.449   &lt;2e-16 ***
-## loan_amnt      1.138e-04  2.237e-06  50.873   &lt;2e-16 ***
+##                       Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)         -6.361e+00  1.820e-01 -34.957   &lt;2e-16 ***
+## credit_score        -3.167e-04  2.655e-04  -1.193    0.233    
+## person_income        3.020e-07  1.969e-07   1.534    0.125    
+## loan_percent_income  1.543e+01  2.222e-01  69.436   &lt;2e-16 ***
+## loan_int_rate        3.351e-01  5.121e-03  65.427   &lt;2e-16 ***
+## loan_amnt           -1.078e-04  3.079e-06 -35.000   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
 ##     Null deviance: 47674  on 44999  degrees of freedom
-## Residual deviance: 42285  on 44996  degrees of freedom
-## AIC: 42293
+## Residual deviance: 35175  on 44994  degrees of freedom
+## AIC: 35187
 ## 
 ## Number of Fisher Scoring iterations: 6</code></pre>
+<pre class="r"><code>model2 &lt;- glm(loan_status ~ credit_score + person_income +
+              loan_percent_income + loan_int_rate +
+              loan_amnt + previous_loan_defaults_on_file,
+              data = loan, family = binomial)
+
+summary(model2)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = loan_status ~ credit_score + person_income + loan_percent_income + 
+##     loan_int_rate + loan_amnt + previous_loan_defaults_on_file, 
+##     family = binomial, data = loan)
+## 
+## Coefficients:
+##                                     Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                        1.719e-01  2.477e-01   0.694    0.488    
+## credit_score                      -8.927e-03  3.746e-04 -23.828   &lt;2e-16 ***
+## person_income                      3.197e-07  2.112e-07   1.513    0.130    
+## loan_percent_income                1.557e+01  2.842e-01  54.786   &lt;2e-16 ***
+## loan_int_rate                      3.353e-01  6.283e-03  53.366   &lt;2e-16 ***
+## loan_amnt                         -1.049e-04  3.666e-06 -28.616   &lt;2e-16 ***
+## previous_loan_defaults_on_fileYes -2.058e+01  1.041e+02  -0.198    0.843    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 47674  on 44999  degrees of freedom
+## Residual deviance: 21417  on 44993  degrees of freedom
+## AIC: 21431
+## 
+## Number of Fisher Scoring iterations: 19</code></pre>
+<pre class="r"><code>AIC(model1, model2)</code></pre>
+<pre><code>##        df      AIC
+## model1  6 35186.87
+## model2  7 21430.89</code></pre>
 </div>
+</div>
+<div id="final-model" class="section level2">
+<h2>final model</h2>
+<pre class="r"><code>model_final &lt;- glm(loan_status ~ credit_score + person_income +
+                   loan_percent_income + loan_int_rate +
+                   loan_amnt,
+                   data = loan, family = binomial)
+
+summary(model_final)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = loan_status ~ credit_score + person_income + loan_percent_income + 
+##     loan_int_rate + loan_amnt, family = binomial, data = loan)
+## 
+## Coefficients:
+##                       Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)         -6.361e+00  1.820e-01 -34.957   &lt;2e-16 ***
+## credit_score        -3.167e-04  2.655e-04  -1.193    0.233    
+## person_income        3.020e-07  1.969e-07   1.534    0.125    
+## loan_percent_income  1.543e+01  2.222e-01  69.436   &lt;2e-16 ***
+## loan_int_rate        3.351e-01  5.121e-03  65.427   &lt;2e-16 ***
+## loan_amnt           -1.078e-04  3.079e-06 -35.000   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 47674  on 44999  degrees of freedom
+## Residual deviance: 35175  on 44994  degrees of freedom
+## AIC: 35187
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
 </div>
 
 

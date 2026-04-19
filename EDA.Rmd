@@ -2,7 +2,9 @@
 title: "Project code"
 author: "Sean and Dylan"
 date: "2026-04-14"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -48,6 +50,11 @@ ggplot(loan, aes(x = loan_status)) +
 ggplot(loan, aes(x = previous_loan_defaults_on_file)) +
   geom_bar() +
   labs(title = " Bar Graph of Previous Loan Defaults")
+
+ggplot(loan, aes(x = person_income)) +
+  geom_histogram(bins = 30) +
+  coord_cartesian(xlim = c(0, 200000)) +
+  labs(title = "Histogram of Income (Zoomed)")
 
 ```
 ## Multivariate EDA
